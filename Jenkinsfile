@@ -34,16 +34,18 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                echo 'Running basic tests...'
-                sh '''
-                    docker run --rm -d --name test-${BUILD_NUMBER} -p 3999:3000 ${ECR_REPO_NAME}:${IMAGE_TAG}
-                    sleep 3
-                    curl -f http://localhost:3999/health || (docker logs test-${BUILD_NUMBER} && exit 1)
-                    docker stop test-${BUILD_NUMBER}
-                '''
-            }
+    steps {
+        echo 'Running basic tests...'
+        sh '''
+            docker run --rm -d --name test-${BUILD_NUMBER} ${ECR_REPO_NAME}:${IMAGE_TAG}
+            sleep 3
+            CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-${BUILD_NUMBER})
+            echo "Test container IP: $CONTAINER_IP"
+            curl -f http://${CONTAINER_IP}:3000/health || (docker logs test-${BUILD_NUMBER} && docker stop test-${BUILD_NUMBER} && exit 1)
+            docker stop test-${BUILD_NUMBER}
+        '''
         }
+    }
 
         stage('Push Image to ECR') {
             steps {
