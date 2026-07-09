@@ -8,7 +8,7 @@ pipeline {
         IMAGE_TAG        = "${env.BUILD_NUMBER}"
         ECR_REGISTRY     = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         IMAGE_URI        = "${ECR_REGISTRY}/${ECR_REPO_NAME}:${IMAGE_TAG}"
-        EC2_HOST         = 'ec2-user@43.205.134.177'       // TODO: replace with your EC2 user@ip
+        EC2_HOST         = 'ubuntu@43.205.134.177'       // TODO: replace with your EC2 user@ip
         CONTAINER_NAME   = 'sample-app'
     }
 
