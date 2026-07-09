@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCOUNT_ID   = '968234051261'                  // TODO: replace with your AWS account ID
-        AWS_REGION       = 'ap-south-1'                    // TODO: replace with your AWS region
+        AWS_ACCOUNT_ID   = '968234051261'                  
+        AWS_REGION       = 'ap-south-1'                    
         ECR_REPO_NAME    = 'sample-app'
         IMAGE_TAG        = "${env.BUILD_NUMBER}"
         ECR_REGISTRY     = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         IMAGE_URI        = "${ECR_REGISTRY}/${ECR_REPO_NAME}:${IMAGE_TAG}"
-        EC2_HOST         = 'ubuntu@43.205.134.177'       // TODO: replace with your EC2 user@ip
+        EC2_HOST         = 'ubuntu@43.205.134.177'       
         CONTAINER_NAME   = 'sample-app'
     }
 
